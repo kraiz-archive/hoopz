@@ -1,59 +1,63 @@
-/* eslint no-console: 0 */
-'use strict';
-
-const path = require('path');
-const fs = require('fs');
-const express = require('express');
+import path from 'path';
+import fs from 'fs';
+import express from 'express';
+import socketio from 'socket.io';
+import {Server} from 'http';
+import * as log from 'winston';
+import GameServer from './hoopz/gameserver';
 
 const port = process.env.PORT || 3000;
 const app = express();
+const httpserver = Server(app);
+const io = socketio(httpserver);
+const gameserver = new GameServer();
 
+// "detect" mode
 let developing;
-
 try {
-  fs.accessSync(path.join(__dirname, 'dist'), fs.F_OK);
+  fs.accessSync(path.join(__dirname, '..', 'dist'), fs.F_OK);
   developing = false;
 } catch (e) {
   developing = true;
 }
 
 if (developing) {
-  const webpack = require('webpack');
-  const webpackMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
+  // developing mode - serve code by webpack
   const config = require('../webpack.config.js');
-  const compiler = webpack(config);
-  const middleware = webpackMiddleware(compiler, {
+  const compiler = require('webpack')(config);
+  const middleware = require('webpack-dev-middleware')(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
     stats: {
-      colors: true,
+      noInfo: true,
+      quiet: true,
+      lazy: true,
       hash: false,
-      timings: true,
+      timings: false,
       chunks: false,
       chunkModules: false,
       modules: false
     }
   });
   app.use(middleware);
-  app.use(webpackHotMiddleware(compiler));
-  app.get('/', function response(req, res) {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')));
+  app.get('/', (req, res) => {
+    res.write(middleware.fileSystem.readFileSync(
+      path.join(__dirname, 'dist', 'index.html')
+    ));
     res.end();
   });
 } else {
-  app.use(express.static(__dirname + '/dist'));
-  app.get('*', function response(req, res) {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
-  });
+  // production mode - serve code from dist folder
+  app.use(express.static(path.join(__dirname, 'dist')));
+  app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'dist', 'index.html')));
 }
 
-app.listen(port, '0.0.0.0', function onStart(err) {
-  if (err) {
-    console.log(err);
-  }
+io.on('connection', socket => gameserver.newConnection(socket));
+
+httpserver.listen(port, '0.0.0.0', err => {
+  if (err) log.error(err);
 
   if (developing) {
-    console.log('Serving to http://localhost:' + port);
+    log.info('Serving to http://localhost:' + port);
   }
 });

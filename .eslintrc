@@ -10,6 +10,13 @@
     "sinon": true,
     "__DEV__": true
   },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
   "ecmaFeatures": {
     "arrowFunctions": true,
     "blockBindings": true,

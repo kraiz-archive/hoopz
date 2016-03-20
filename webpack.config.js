@@ -1,13 +1,13 @@
 'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    'webpack-hot-middleware/client?reload=true',
     path.join(__dirname, 'src/client.js')
   ],
   output: {
@@ -22,7 +22,6 @@ module.exports = {
       filename: 'index.html'
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
@@ -33,9 +32,7 @@ module.exports = {
       test: /\.js?$/,
       exclude: /node_modules/,
       loader: 'babel',
-      query: {
-        "presets": ["es2015"]
-      }
+      query: JSON.parse(fs.readFileSync(path.join(__dirname, '.babelrc'), 'utf8'))
     }, {
       test: /\.css$/,
       loader: 'style!css?modules&localIdentName=[name]---[local]---[hash:base64:5]'

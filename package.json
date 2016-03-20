@@ -10,12 +10,15 @@
   "author": "hoopz-crew",
   "license": "MIT",
   "scripts": {
-    "start": "node ./src/server.js",
+    "start": "nodemon --exec babel-node ./src/server.js",
     "build": "rimraf dist && webpack --config ./webpack.production.config.js --progress --profile --colors",
     "lint": "eslint src"
   },
   "dependencies": {
-    "babel-cli": "^6.6.4"
+    "babel-cli": "^6.6.4",
+    "node-uuid": "^1.4.7",
+    "socket.io": "^1.4.5",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
