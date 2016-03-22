@@ -16,8 +16,11 @@
   },
   "dependencies": {
     "babel-cli": "^6.6.4",
-    "node-uuid": "^1.4.7",
+    "nanotimer": "^0.3.14",
+    "pixi.js": "^3.0.10",
+    "shortid": "^2.2.4",
     "socket.io": "^1.4.5",
+    "victor": "^1.1.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {

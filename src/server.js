@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 const httpserver = Server(app);
 const io = socketio(httpserver);
-const gameserver = new GameServer();
+const gameserver = new GameServer(io); // eslint-disable-line no-unused-vars
 
 // "detect" mode
 let developing;
@@ -32,6 +32,7 @@ if (developing) {
       noInfo: true,
       quiet: true,
       lazy: true,
+      colors: true,
       hash: false,
       timings: false,
       chunks: false,
@@ -51,8 +52,6 @@ if (developing) {
   app.use(express.static(path.join(__dirname, 'dist')));
   app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'dist', 'index.html')));
 }
-
-io.on('connection', socket => gameserver.newConnection(socket));
 
 httpserver.listen(port, '0.0.0.0', err => {
   if (err) log.error(err);
