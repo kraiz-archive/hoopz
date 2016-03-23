@@ -6,6 +6,7 @@ import {Server} from 'http';
 import * as log from 'winston';
 import GameServer from './hoopz/gameserver';
 
+const distFolder = path.join(__dirname, '..', 'dist');
 const port = process.env.PORT || 3000;
 const app = express();
 const httpserver = Server(app);
@@ -15,7 +16,7 @@ const gameserver = new GameServer(io); // eslint-disable-line no-unused-vars
 // "detect" mode
 let developing;
 try {
-  fs.accessSync(path.join(__dirname, '..', 'dist'), fs.F_OK);
+  fs.accessSync(distFolder, fs.F_OK);
   developing = false;
 } catch (e) {
   developing = true;
@@ -43,14 +44,14 @@ if (developing) {
   app.use(middleware);
   app.get('/', (req, res) => {
     res.write(middleware.fileSystem.readFileSync(
-      path.join(__dirname, 'dist', 'index.html')
+      path.join(distFolder, 'index.html')
     ));
     res.end();
   });
 } else {
   // production mode - serve code from dist folder
-  app.use(express.static(path.join(__dirname, 'dist')));
-  app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'dist', 'index.html')));
+  app.use(express.static(distFolder));
+  app.get('/', (req, res) => res.sendFile(path.join(distFolder, 'index.html')));
 }
 
 httpserver.listen(port, '0.0.0.0', err => {
