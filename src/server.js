@@ -6,8 +6,8 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 const reload = require('reload');
-const GameServer = require('./hoopz/gameserver');
-const log = require('./hoopz/log');
+const GameServer = require('./server/gameserver');
+const log = require('./server/log');
 
 const distFolder = path.join(__dirname, '..', 'dist');
 const port = process.env.PORT || 3000;
