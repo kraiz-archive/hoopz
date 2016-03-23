@@ -11,8 +11,8 @@ module.exports = new winston.Logger({
       colorize: true,
       timestamp: true,
       prettyPrint: true,
-      depth: 1
-    })
+      depth: 1,
+    }),
   ],
-  exitOnError: false
+  exitOnError: false,
 });

@@ -7,7 +7,7 @@ const log = require('./log');
 module.exports = class GameServer {
 
   constructor(socket) {
-    this.games = [];
+    this.games = new Map();
     this.socket = socket;
     this.socket.on('connection', ps => this.onConnection(ps));
   }
@@ -17,7 +17,7 @@ module.exports = class GameServer {
     playerSocket.on('join', data => this.onJoin(player, data));
     playerSocket.emit('connected', {
       you: player.serialize(),
-      games: this.games.map(g => g.serialize())
+      games: this.games.map(g => g.serialize()),
     });
   }
 

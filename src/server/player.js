@@ -17,7 +17,7 @@ module.exports = class Player {
   serialize() {
     return {
       id: this.id,
-      pos: this.pos.toObject()
+      pos: this.pos.toObject(),
     };
   }
 
@@ -27,7 +27,7 @@ module.exports = class Player {
 
   join(game) {
     this.game = game;
-    this.socket.emit('joined', {id: game.id});
+    this.socket.emit('joined', { id: game.id });
     this.socket.join(game.id);
   }
 

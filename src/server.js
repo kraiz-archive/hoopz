@@ -12,7 +12,7 @@ const log = require('./server/log');
 const distFolder = path.join(__dirname, '..', 'dist');
 const port = process.env.PORT || 3000;
 const app = express();
-const httpServer = http.Server(app);
+const httpServer = new http.Server(app);
 const io = socketio(httpServer);
 const gameServer = new GameServer(io); // eslint-disable-line no-unused-vars
 
@@ -32,7 +32,7 @@ if (developing) {
   const middleware = require('webpack-dev-middleware')(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
-    stats: 'errors-only'
+    stats: 'errors-only',
   });
   app.use(middleware);
   app.get('/', (req, res) => {
@@ -50,5 +50,5 @@ if (developing) {
 
 httpServer.listen(port, '0.0.0.0', err => {
   if (err) log.error(err);
-  if (developing) log.info('Serving to http://localhost:' + port);
+  if (developing) log.info(`Serving to http://localhost:${port}`);
 });

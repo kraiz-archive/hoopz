@@ -5,7 +5,7 @@ module.exports = {
 
   client: {
     socketio: {
-      reconnectionDelay: 5000  // wait for browser reload
-    }
-  }
+      reconnectionDelay: 5000,  // wait for browser reload
+    },
+  },
 };

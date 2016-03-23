@@ -21,7 +21,7 @@ module.exports = class Game {
     return {
       id: this.id,
       tick: this.tick,
-      players: this.players.map(p => p.serialize())
+      players: this.players.map(p => p.serialize()),
     };
   }
 
