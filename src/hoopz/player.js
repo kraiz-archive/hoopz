@@ -1,8 +1,10 @@
-import shortid from 'shortid';
-import Vector from 'victor';
+'use strict';
+
+const shortid = require('shortid');
+const Vector = require('victor');
 
 
-export default class Player {
+module.exports = class Player {
 
   constructor(socket) {
     this.id = shortid.generate();
@@ -33,4 +35,4 @@ export default class Player {
     if (this.game) this.game.leave(this);
   }
 
-}
+};

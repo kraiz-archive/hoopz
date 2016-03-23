@@ -1,7 +1,10 @@
+'use strict';
+
 /* eslint no-console: 0 */
 import io from 'socket.io-client';
+import config from './hoopz/config';
 
-const socket = io.connect('/');
+const socket = new io.connect('/', config.client.socketio);
 const game2join = window.location.hash.slice(1);
 
 socket.on('connected', data => {

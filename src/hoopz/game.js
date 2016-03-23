@@ -1,8 +1,10 @@
-import shortid from 'shortid';
-import NanoTimer from 'nanotimer';
-import log from './log';
+'use strict';
 
-export default class Game {
+const shortid = require('shortid');
+const NanoTimer = require('nanotimer');
+const log = require('./log');
+
+module.exports = class Game {
 
   constructor(id, socket, server) {
     this.id = id || shortid.generate();
@@ -67,4 +69,4 @@ export default class Game {
     this.socket.emit('state', this.serialize());
   }
 
-}
+};

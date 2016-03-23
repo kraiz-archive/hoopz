@@ -5,7 +5,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const StatsPlugin = require('stats-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -29,10 +28,6 @@ module.exports = {
         warnings: false,
         screw_ie8: true
       }
-    }),
-    new StatsPlugin('webpack.stats.json', {
-      source: false,
-      modules: false
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')

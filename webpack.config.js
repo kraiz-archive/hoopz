@@ -8,6 +8,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
+    path.join(__dirname, 'node_modules/reload/lib/sockjs-0.3-min.js'),
+    path.join(__dirname, 'node_modules/reload/lib/reload-client.js'),
     path.join(__dirname, 'src/client.js')
   ],
   output: {

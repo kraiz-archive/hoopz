@@ -1,17 +1,20 @@
-import path from 'path';
-import fs from 'fs';
-import express from 'express';
-import socketio from 'socket.io';
-import {Server} from 'http';
-import * as log from 'winston';
-import GameServer from './hoopz/gameserver';
+'use strict';
+
+const path = require('path');
+const fs = require('fs');
+const express = require('express');
+const socketio = require('socket.io');
+const http = require('http');
+const reload = require('reload');
+const GameServer = require('./hoopz/gameserver');
+const log = require('./hoopz/log');
 
 const distFolder = path.join(__dirname, '..', 'dist');
 const port = process.env.PORT || 3000;
 const app = express();
-const httpserver = Server(app);
-const io = socketio(httpserver);
-const gameserver = new GameServer(io); // eslint-disable-line no-unused-vars
+const httpServer = http.Server(app);
+const io = socketio(httpServer);
+const gameServer = new GameServer(io); // eslint-disable-line no-unused-vars
 
 // "detect" mode
 let developing;
@@ -23,23 +26,13 @@ try {
 }
 
 if (developing) {
-  // developing mode - serve code by webpack
+  // developing mode - serve code by webpack with autoreload
   const config = require('../webpack.config.js');
   const compiler = require('webpack')(config);
   const middleware = require('webpack-dev-middleware')(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
-    stats: {
-      noInfo: true,
-      quiet: true,
-      lazy: true,
-      colors: true,
-      hash: false,
-      timings: false,
-      chunks: false,
-      chunkModules: false,
-      modules: false
-    }
+    stats: 'errors-only'
   });
   app.use(middleware);
   app.get('/', (req, res) => {
@@ -48,16 +41,14 @@ if (developing) {
     ));
     res.end();
   });
+  reload(httpServer, app, [0], false);
 } else {
   // production mode - serve code from dist folder
   app.use(express.static(distFolder));
   app.get('/', (req, res) => res.sendFile(path.join(distFolder, 'index.html')));
 }
 
-httpserver.listen(port, '0.0.0.0', err => {
+httpServer.listen(port, '0.0.0.0', err => {
   if (err) log.error(err);
-
-  if (developing) {
-    log.info('Serving to http://localhost:' + port);
-  }
+  if (developing) log.info('Serving to http://localhost:' + port);
 });

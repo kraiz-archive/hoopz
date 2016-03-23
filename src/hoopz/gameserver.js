@@ -1,8 +1,10 @@
-import Game from './game';
-import Player from './player';
-import log from './log';
+'use strict';
 
-export default class GameServer {
+const Game = require('./game');
+const Player = require('./player');
+const log = require('./log');
+
+module.exports = class GameServer {
 
   constructor(socket) {
     this.games = [];
@@ -41,4 +43,4 @@ export default class GameServer {
     log.info(`Deleted ${game}`);
   }
 
-}
+};
