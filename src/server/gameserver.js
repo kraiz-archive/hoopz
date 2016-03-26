@@ -17,7 +17,7 @@ module.exports = class GameServer {
     playerSocket.on('join', data => this.onJoin(player, data));
     playerSocket.emit('connected', {
       you: player.serialize(),
-      games: this.games.map(g => g.serialize()),
+      games: Array.from(this.games.values()).map(g => g.serialize()),
     });
   }
 
@@ -30,16 +30,16 @@ module.exports = class GameServer {
   }
 
   getOrCreateGame(id) {
-    let game = id ? this.games.find(g => g.id === id) : undefined;
+    let game = id ? this.games.get(id) : undefined;
     if (!game) {
       game = new Game(id, this.socket, this);
-      this.games.push(game);
+      this.games.set(game.id, game);
     }
     return game;
   }
 
   closeGame(game) {
-    this.games.splice(this.games.findIndex(g => g.id === game.id), 1);
+    this.games.delete(game.id);
     log.info(`Deleted ${game}`);
   }
 

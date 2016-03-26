@@ -9,11 +9,11 @@ module.exports = class Game {
   constructor(id, socket, server) {
     this.id = id || shortid.generate();
     this.server = server;
-    this.players = [];
+    this.players = new Map();
     this.running = false;
     this.updateTimer = new NanoTimer();
     this.broadcastTimer = new NanoTimer();
-    this.socket = socket.to(this.id);
+    this.socket = socket;
     this.tick = 0;
   }
 
@@ -21,25 +21,25 @@ module.exports = class Game {
     return {
       id: this.id,
       tick: this.tick,
-      players: this.players.map(p => p.serialize()),
+      players: Array.from(this.players.values()).map(p => p.serialize()),
     };
   }
 
   toString() {
-    return `Game(${this.id},p#${this.players.length})`;
+    return `Game(${this.id},p#${this.players.size})`;
   }
 
   join(player) {
-    this.players.push(player);
+    this.players.set(player.id, player);
     log.info(`${player} joined ${this}`);
     player.join(this);
     if (!this.running) this.start();
   }
 
   leave(player) {
-    this.players.splice(this.players.findIndex(p => p.id === player.id), 1);
+    this.players.delete(player.id);
     log.info(`${player} left ${this}`);
-    if (this.players.length === 0) {
+    if (this.players.size === 0) {
       this.stop();
     }
   }
@@ -56,7 +56,7 @@ module.exports = class Game {
     log.info(`Stopping ${this}`);
     this.running = false;
     this.updateTimer.clearInterval();
-    this.updateTimer.clearInterval();
+    this.broadcastTimer.clearInterval();
     this.server.closeGame(this);
   }
 
@@ -66,7 +66,7 @@ module.exports = class Game {
   }
 
   broadcast() {
-    this.socket.emit('state', this.serialize());
+    this.socket.to(this.id).emit('state', this.serialize());
   }
 
 };

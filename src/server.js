@@ -8,12 +8,13 @@ const http = require('http');
 const reload = require('reload');
 const GameServer = require('./server/gameserver');
 const log = require('./server/log');
+const config = require('./shared/config');
 
 const distFolder = path.join(__dirname, '..', 'dist');
 const port = process.env.PORT || 3000;
 const app = express();
 const httpServer = new http.Server(app);
-const io = socketio(httpServer);
+const io = socketio(httpServer, config.server.socketio);
 const gameServer = new GameServer(io); // eslint-disable-line no-unused-vars
 
 // "detect" mode
@@ -27,10 +28,10 @@ try {
 
 if (developing) {
   // developing mode - serve code by webpack with autoreload
-  const config = require('../webpack.config.js');
-  const compiler = require('webpack')(config);
+  const webpackConfig = require('../webpack.config.js');
+  const compiler = require('webpack')(webpackConfig);
   const middleware = require('webpack-dev-middleware')(compiler, {
-    publicPath: config.output.publicPath,
+    publicPath: webpackConfig.output.publicPath,
     contentBase: 'src',
     stats: 'errors-only',
   });

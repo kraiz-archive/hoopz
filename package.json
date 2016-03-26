@@ -16,6 +16,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "jade": "^1.11.0",
     "nanotimer": "^0.3.14",
     "pixi.js": "^3.0.10",
     "shortid": "^2.2.4",
@@ -35,6 +36,7 @@
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.10.0",
+    "jade-loader": "^0.8.0",
     "nodemon": "^1.9.1",
     "postcss-loader": "^0.8.2",
     "reload": "^0.7.0",
