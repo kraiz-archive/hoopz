@@ -22,7 +22,7 @@ module.exports = class GameServer {
   }
 
   onJoin(player, game) {
-    if (this.games.length === 0 || game.id) { // no game exists or no preference
+    if (this.games.size === 0 || game.id) { // no game exists or no preference
       this.getOrCreateGame(game.id).join(player);
     } else {
       this.games[0].join(player);
