@@ -49,7 +49,7 @@ module.exports = class Game {
     this.running = true;
     this.tick = 0;
     this.updateTimer.setInterval(this.update.bind(this), '', '100m');
-    this.broadcastTimer.setInterval(this.broadcast.bind(this), '', '1s');
+    this.broadcastTimer.setInterval(this.broadcast.bind(this), '', '250m');
   }
 
   stop() {
@@ -62,7 +62,10 @@ module.exports = class Game {
 
   update() {
     this.tick++;
-    // do the world updates here
+    for (const player of this.players.values()) {
+      player.pos.x = 100 * Math.cos(Date.now() * 0.001);
+      player.pos.y = 100 * Math.sin(Date.now() * 0.001);
+    }
   }
 
   broadcast() {

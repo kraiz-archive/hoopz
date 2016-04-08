@@ -5,7 +5,7 @@ module.exports.server = {
 };
 
 const client = {
-  testGuiAttribute: 10,
+  interpolationTime: 500,
   socketio: {
     reconnectionDelay: 5000, // wait for browser reload
     transports: ['websocket'],
@@ -14,5 +14,5 @@ const client = {
 module.exports.client = client;
 
 module.exports.setupGui = function setupGui(gui) {
-  gui.add(client, 'testGuiAttribute');
+  gui.add(client, 'interpolationTime', 0, 2000);
 };

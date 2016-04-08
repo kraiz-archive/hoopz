@@ -22,10 +22,11 @@ module.exports = class GameServer {
   }
 
   onJoin(player, game) {
-    if (this.games.size === 0 || game.id) { // no game exists or no preference
+    if (this.games.size === 0 || game.id) { // no game exists or preference
       this.getOrCreateGame(game.id).join(player);
-    } else {
-      this.games[0].join(player);
+    } else { // join into existing with least players
+      Array.from(this.games.values())
+        .sort((a, b) => a.players.size - b.players.size)[0].join(player);
     }
   }
 

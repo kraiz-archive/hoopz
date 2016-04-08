@@ -12,6 +12,9 @@ module.exports = {
     path.join(__dirname, 'node_modules/reload/lib/reload-client.js'),
     path.join(__dirname, 'src/client.js'),
   ],
+  node: {
+    fs: 'empty',
+  },
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: '[name].js',
@@ -35,6 +38,14 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel',
       query: JSON.parse(fs.readFileSync(path.join(__dirname, '.babelrc'), 'utf8')),
+    }, {
+      test: /\.json$/,
+      loader: 'json',
     }],
   },
+  postLoaders: [{
+    test: /\.js$/,
+    include: /node_modules\/pixi\.js/,
+    loader: 'transform/cacheable?brfs',
+  }],
 };

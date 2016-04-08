@@ -3,34 +3,37 @@
 /* eslint no-console: 0 */
 import io from 'socket.io-client';
 import config from './shared/config';
+import World from './client/world';
 
-window.onload = () => {
-  const socket = io.connect('/', config.client.socketio);
-  const game2join = window.location.hash.slice(1);
+const PIXI = require('pixi.js');
 
-  if (DEVELOPING) {
-    window.datGui = new dat.GUI();
-    window.datGui.close();
-    config.setupGui(window.datGui);
-  }
+const socket = io.connect('/', config.client.socketio);
+const game2join = window.location.hash.slice(1);
 
-  socket.on('connected', data => {
-    console.info('connected', data);
-    console.warn('join', {
-      id: game2join || null,
-    });
-    socket.emit('join', {
-      id: game2join || null,
-    });
+if (DEVELOPING) {
+  window.datGui = new dat.GUI();
+  window.datGui.close();
+  config.setupGui(window.datGui);
+}
+
+const world = new World();
+socket.on('joined', game => { window.location.hash = game.id; });
+socket.on('state', state => world.onUpdate(state));
+socket.on('connected', () => {
+  socket.emit('join', {
+    id: game2join || null,
   });
+});
 
-  socket.on('joined', game => {
-    console.info(`joined ${game.id}`);
-    window.location.hash = game.id;
-  });
+const renderer = PIXI.autoDetectRenderer(400, 400, {
+  backgroundColor: 0x1099bb,
+});
+document.body.appendChild(renderer.view);
 
-  socket.on('state', state => {
-    console.info('state', state);
-    console.info('testGuiAttribute', config.client.testGuiAttribute);
-  });
-};
+function animate() {
+  requestAnimationFrame(animate);
+  world.onFrame(Date.now() - config.client.interpolationTime);
+  renderer.render(world.stage);
+}
+
+animate();
