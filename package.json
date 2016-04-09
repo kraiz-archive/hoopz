@@ -5,9 +5,9 @@
   "main": "./src/server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hoopz-crew/hoopz.git"
+    "url": "https://github.com/kraiz/hoopz.git"
   },
-  "author": "hoopz-crew",
+  "author": "Lars Kreisz",
   "license": "MIT",
   "scripts": {
     "start": "nodemon",
