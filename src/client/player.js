@@ -27,7 +27,7 @@ export default class Player {
 
   onFrame(time) {
     const newPos = this.stateBuffer.get(time);
-    this.gui.position.x = newPos.x;
-    this.gui.position.y = newPos.y;
+    this.gui.position.x = newPos ? newPos.x : 0;
+    this.gui.position.y = newPos ? newPos.y : 0;
   }
 }

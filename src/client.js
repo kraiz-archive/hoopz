@@ -26,7 +26,7 @@ socket.on('connected', () => {
 });
 
 const renderer = PIXI.autoDetectRenderer(400, 400, {
-  backgroundColor: 0x1099bb,
+  backgroundColor: 0x1099cc,
 });
 document.body.appendChild(renderer.view);
 
