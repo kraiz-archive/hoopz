@@ -1,14 +1,14 @@
 {
-  parser: "babel-eslint",
-  extends: "airbnb/base",
-  env: {
-    browser: true,
-    node: true,
-    es6: true,
-    jasmine : true
+  "parser": "babel-eslint",
+  "extends": "airbnb/base",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jasmine": true
   },
-  globals: {
-    dat: false,
-    DEVELOPING: false
+  "globals": {
+    "dat": false,
+    "DEVELOPING": false
   }
 }
