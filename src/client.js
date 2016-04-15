@@ -10,7 +10,7 @@ const PIXI = require('pixi.js');
 const socket = io.connect('/', config.client.socketio);
 const game2join = window.location.hash.slice(1);
 
-if (DEVELOPING && typeof dat != 'undefined') { // dev and wifi :)
+if (DEVELOPING && typeof dat !== 'undefined') {
   window.datGui = new dat.GUI();
   window.datGui.close();
   config.setupGui(window.datGui);
