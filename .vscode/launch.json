@@ -10,14 +10,14 @@
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": null,
-			"runtimeExecutable": null,
+			"runtimeExecutable": "${workspaceRoot}/node_modules/.bin/nodemon",
 			"runtimeArgs": [
-				"--nolazy"
+				"--debug"
 			],
 			"env": {
 				"NODE_ENV": "development"
 			},
-			"externalConsole": false,
+			"externalConsole": true,
 			"sourceMaps": false,
 			"outDir": null
 		},
@@ -27,7 +27,7 @@
 			"request": "attach",
 			"port": 5858,
 			"address": "localhost",
-			"restart": false,
+			"restart": true,
 			"sourceMaps": false,
 			"outDir": null,
 			"localRoot": "${workspaceRoot}",
