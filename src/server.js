@@ -6,7 +6,6 @@ const fs = require('fs');
 const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
-const reload = require('reload');
 const GameServer = require('./server/gameserver');
 const log = require('./server/log');
 const config = require('./shared/config');
@@ -43,7 +42,6 @@ if (developing) {
     ));
     res.end();
   });
-  reload(httpServer, app, [0], false);
 } else {
   // production mode - serve code from dist folder
   app.use(express.static(distFolder));
