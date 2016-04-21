@@ -17,6 +17,10 @@ module.exports.client = {
     transports: ['websocket'],
   },
   input: {
+    timer: {
+      sample: 100,
+      transmit: 250,
+    },
     speed: {
       normal: 1,
       fast: 2,

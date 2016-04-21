@@ -15,18 +15,18 @@ class Input {
     };
   }
 
-  update() {
+  sample() {
     // override this, sample the input device
   }
 
 }
 
 const KEY = {
-  LEFT: 37,
-  RIGHT: 39,
-  UP: 38,
+  LEFT: 37, A: 65,
+  RIGHT: 39, D: 68,
+  UP: 38, W: 87,
   SPACE: 32,
-  SHIFT: 65,
+  SHIFT: 16, CTRL: 17,
 };
 
 export class KeyboardInput extends Input {
@@ -38,12 +38,18 @@ export class KeyboardInput extends Input {
     window.addEventListener('keyup', event => this.pressed.delete(event.keyCode), false);
   }
 
-  update() {
+  sample() {
     this.side = 0;
     let speed = config.client.input.speed.normal;
-    if (this.pressed.has(KEY.SHIFT)) speed = config.client.input.speed.fast;
-    if (this.pressed.has(KEY.LEFT)) this.side -= speed;
-    if (this.pressed.has(KEY.RIGHT)) this.side += speed;
+    if (this.pressed.has(KEY.SHIFT) || this.pressed.has(KEY.CTRL)) {
+      speed = config.client.input.speed.fast;
+    }
+    if (this.pressed.has(KEY.LEFT) || this.pressed.has(KEY.A)) {
+      this.side -= speed;
+    }
+    if (this.pressed.has(KEY.RIGHT) || this.pressed.has(KEY.D)) {
+      this.side += speed;
+    }
   }
 }
 
