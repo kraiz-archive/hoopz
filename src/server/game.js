@@ -3,6 +3,7 @@
 const shortid = require('shortid');
 const NanoTimer = require('nanotimer');
 const log = require('./log');
+const config = require('../shared/config');
 
 module.exports = class Game {
 
@@ -48,8 +49,10 @@ module.exports = class Game {
     log.info(`Starting ${this}`);
     this.running = true;
     this.tick = 0;
-    this.updateTimer.setInterval(this.update.bind(this), '', '100m');
-    this.broadcastTimer.setInterval(this.broadcast.bind(this), '', '250m');
+    this.updateTimer.setInterval(this.update.bind(this), '',
+      `${config.server.timer.update}m`);
+    this.broadcastTimer.setInterval(this.broadcast.bind(this), '',
+      `${config.server.timer.broadcast}m`);
   }
 
   stop() {

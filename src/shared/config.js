@@ -1,4 +1,8 @@
 module.exports.server = {
+  timer: {
+    update: 100,
+    broadcast: 250,
+  },
   socketio: {
     transports: ['websocket'],
   },
