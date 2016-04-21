@@ -4,6 +4,7 @@
 import io from 'socket.io-client';
 import config from './shared/config';
 import World from './client/world';
+import AutoDetectInput from './client/input';
 
 const PIXI = require('pixi.js');
 
@@ -25,15 +26,20 @@ socket.on('connected', () => {
   });
 });
 
-const renderer = PIXI.autoDetectRenderer(400, 400, {
+const renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
   backgroundColor: 0x1099cc,
 });
 document.body.appendChild(renderer.view);
 
 function animate() {
   requestAnimationFrame(animate);
-  world.onFrame(Date.now() - config.client.interpolationTime);
+  world.onFrame(Date.now() - config.client.rendering.interpolationTime);
   renderer.render(world.stage);
 }
-
 animate();
+
+const input = new AutoDetectInput();
+function sendInput() {
+  console.log(input.pressed);
+}
+setInterval(sendInput, 1000);
