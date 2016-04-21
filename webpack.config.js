@@ -9,6 +9,7 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: [
     path.join(__dirname, 'src/client.js'),
+    path.join(__dirname, 'src/client.scss'),
   ],
   node: {
     fs: 'empty',
@@ -39,6 +40,9 @@ module.exports = {
     }, {
       test: /\.json$/,
       loader: 'json',
+    }, {
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass'],
     }],
   },
   postLoaders: [{
