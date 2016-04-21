@@ -33,17 +33,17 @@ export class KeyboardInput extends Input {
 
   constructor() {
     super();
-    this.pressed = new Map();
-    window.addEventListener('keydown', event => this.pressed.set(event.keyCode), false);
+    this.pressed = new Set();
+    window.addEventListener('keydown', event => this.pressed.add(event.keyCode), false);
     window.addEventListener('keyup', event => this.pressed.delete(event.keyCode), false);
   }
 
   update() {
     this.side = 0;
     let speed = config.client.input.speed.normal;
-    if (this.pressed.get(KEY.SHIFT)) speed = config.client.input.speed.fast;
-    if (this.pressed.get(KEY.LEFT)) this.side -= speed;
-    if (this.pressed.get(KEY.RIGHT)) this.side += speed;
+    if (this.pressed.has(KEY.SHIFT)) speed = config.client.input.speed.fast;
+    if (this.pressed.has(KEY.LEFT)) this.side -= speed;
+    if (this.pressed.has(KEY.RIGHT)) this.side += speed;
   }
 }
 
