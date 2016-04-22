@@ -39,8 +39,7 @@ function animate() {
 animate();
 
 const input = new AutoDetectInput();
-setInterval(() => input.sample(), config.client.input.timer.sample);
 function transmitInput() {
-  console.log(input.pressed, input.serialize());
+  console.log(input.pressed, input.sample());
 }
 setInterval(transmitInput, config.client.input.timer.transmit);
