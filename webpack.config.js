@@ -42,7 +42,7 @@ module.exports = {
       loader: 'json',
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'sass'],
+      loaders: ['style', 'css?sourceMap', 'sass?sourceMap'],
     }],
   },
   postLoaders: [{
