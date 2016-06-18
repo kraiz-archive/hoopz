@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: [
     path.join(__dirname, 'src/client.js'),
-    path.join(__dirname, 'src/client.scss'),
+    path.join(__dirname, 'src/client.css'),
   ],
   node: {
     fs: 'empty',
@@ -21,9 +21,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'jade!./src/client.jade',
-      inject: 'body',
-      filename: 'index.html',
+      template: 'jade!src/client.jade',
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
@@ -41,8 +39,8 @@ module.exports = {
       test: /\.json$/,
       loader: 'json',
     }, {
-      test: /\.scss$/,
-      loaders: ['style', 'css?sourceMap', 'sass?sourceMap'],
+      test: /\.css$/,
+      loader: 'style-loader!css-loader',
     }],
   },
   postLoaders: [{
